@@ -1,6 +1,5 @@
 let state = document.getElementById("status");
 document.getElementById("location").onclick = run;
-const key = "AIzaSyA5TnniqdlSEQqjsRDXKlgpUDuW-nIPs4U";
 const geo_url = "https://maps.googleapis.com/maps/api/geocode/json?";
 const nearby_url =
     "https://maps.googleapis.com/maps/api/place/nearbysearch/json?";
@@ -32,7 +31,8 @@ async function getCurrentLocation() {
     if (result.state === "granted" || result.state === "prompt") {
         try {
             const position = await requestPosition();
-            if (position.coords) {v
+            if (position.coords) {
+                v;
                 return {
                     found: true,
                     str: `Found - latitude: ${position.coords.latitude} | longitude: ${position.coords.longitude}`,
