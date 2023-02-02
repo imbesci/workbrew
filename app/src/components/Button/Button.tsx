@@ -29,6 +29,7 @@ export const Button = (props: Props) => {
         if (val === "networkTest") {
             const internetSpeed = await speedTest()
             setSpeed(internetSpeed)
+            setClicked(!clicked)
            
     };}
 
