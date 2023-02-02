@@ -30,7 +30,6 @@ locationRouter.post("/shops", async (req, res) => {
     }
     //Fetch initial dataset from PlacesAPI
     let placesData = await getNearbyPlaces(latitude, longitude, "cafe", 50000);
-
     const pageToken = placesData["next_page_token"];
     placesData = placesData["results"];
 
