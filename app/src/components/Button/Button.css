@@ -23,3 +23,11 @@
     height: fit-content;
     padding: 10px;
 }
+.mapContainer {
+    display: flex;
+    background-color: #282c34;
+    color: white;
+    min-width: 150px;
+    height: fit-content;
+    padding: 10px;
+}

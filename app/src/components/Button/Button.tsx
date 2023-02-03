@@ -3,6 +3,7 @@ import { useState } from "react";
 import "./Button.css";
 import { imageDownloader, speedTest, formatNumber} from "../../helpers/speedtest"
 import { NearbyTable, Restaurant } from "../NearbyTable/NearbyTable"
+import { CafeMap, MapProps } from "../Map/Map"
 
 interface Props {
     buttonType: string;
@@ -13,6 +14,8 @@ export const Button = (props: Props) => {
   const [responseData, setResponseData] = useState([]);
   const [speed, setSpeed] = useState(0)
   const [isLoading, setIsLoading] = useState(false);
+  const initCoords: [number,number] = [0,0]
+  const [coords, setCoords] = useState<[number, number]>(initCoords)
 
     
     const onClick = async (val: string) => {
@@ -21,15 +24,17 @@ export const Button = (props: Props) => {
             navigator.geolocation.getCurrentPosition((position) => {
                 const latitude = position.coords.latitude;
                 const longitude = position.coords.longitude;
-            setClicked(true);
-            fetch("http://localhost:8000/location/shops", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({ latitude, longitude })})
-            .then((response) => response.json())
-            .then((data) => {
-            setResponseData(data.data);
-            setIsLoading(false);
+                setCoords([latitude, longitude]);
+                console.log(coords);
+                setClicked(true);
+                fetch("http://localhost:8000/location/shops", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({ latitude, longitude })})
+                .then((response) => response.json())
+                .then((data) => {
+                setResponseData(data.data);
+                setIsLoading(false);
         });})}
 
         // Button click handling for wifi speed test:
@@ -46,6 +51,11 @@ export const Button = (props: Props) => {
             <div className="tableContainer">
               {!isLoading && clicked && (
                 <NearbyTable restaurants={responseData} />
+              )}
+            </div>
+            <div className="mapContainer">
+              {!isLoading && clicked && coords!=initCoords && (
+                <CafeMap coords={coords} />
               )}
             </div>
             <div className="buttonContainer">

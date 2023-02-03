@@ -1,14 +1,20 @@
 import React, { useState } from 'react'
 import { Map } from 'pigeon-maps'
+import { osm } from 'pigeon-maps/providers'
 
-export function MyMap() {
-    navigator.geolocation.getCurrentPosition((position) => {
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
-    const [center, setCenter] = useState([latitude, longitude])
+export interface MapProps {
+    coords: [number, number]
+}
+
+export function CafeMap(props: MapProps) {
+
+    const coords = props.coords
+    const [center, setCenter] = useState<[number,number]>(coords)
     const [zoom, setZoom] = useState(11)
+
     return (
-        <Map 
+        <Map
+        provider={osm}
         height={300}
         center={center} 
         zoom={zoom} 
@@ -18,4 +24,4 @@ export function MyMap() {
         }} 
         />
     )
-})}
+}
