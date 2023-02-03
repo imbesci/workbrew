@@ -62,7 +62,7 @@ locationRouter.post("/shops", async (req, res) => {
 
         //Make sure status for the fetch as OK
         if (place["status"] === "OK") {
-            let { geometry, plus_code, scope, photos, vicinity, ...cleaned } =
+            let { plus_code, scope, photos, vicinity, ...cleaned } =
                 placesData[index];
             data.push({ ...cleaned, ...place["result"] });
         }
