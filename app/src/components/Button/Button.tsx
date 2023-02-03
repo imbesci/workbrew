@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 import "./Button.css";
-import { imageDownloader, speedTest } from "../../helpers/speedtest"
+import { imageDownloader, speedTest, formatNumber} from "../../helpers/speedtest"
 
 interface Props {
     buttonType: string;
@@ -46,7 +46,7 @@ export const Button = (props: Props) => {
         return (
             <div className="buttonContainer">
             <button className="clickButton" onClick={() => onClick("networkTest")}>
-                {clicked ? "Click to perform a network test!" : isLoading ? "Performing speed test..." : "Your approximate internet speed is: "+speed.toString()+"kB/s"}
+                {clicked ? "Click to perform a network test!" : isLoading ? "Performing speed test..." : "Your approximate internet speed is: "+formatNumber(speed)+" kB/s"}
             </button>
             </div>
         );}
