@@ -41,6 +41,9 @@
     ]
   },
   "devDependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/material": "^5.11.8",
     "@types/chrome": "^0.0.210",
     "pigeon-maps": "^0.21.3",
     "ts-loader": "^9.4.2",

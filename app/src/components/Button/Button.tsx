@@ -48,14 +48,14 @@ export const Button = (props: Props) => {
     if (props.buttonType === "location") {
         return (
           <div>
+            <div className="mapContainer">
+              {!isLoading && clicked && coords!=initCoords && (
+                <CafeMap mapProps={{coords}} restaurants={responseData} />
+              )}
+            </div>
             <div className="tableContainer">
               {!isLoading && clicked && (
                 <NearbyTable restaurants={responseData} />
-              )}
-            </div>
-            <div className="mapContainer">
-              {!isLoading && clicked && coords!=initCoords && (
-                <CafeMap coords={coords} />
               )}
             </div>
             <div className="buttonContainer">
