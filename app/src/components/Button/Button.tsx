@@ -1,9 +1,9 @@
 import * as React from "react";
 import { useState } from "react";
 import "./Button.css";
-import { imageDownloader, speedTest, formatNumber} from "../../helpers/speedtest"
-import { NearbyTable, Restaurant } from "../NearbyTable/NearbyTable"
-import { CafeMap, MapProps } from "../Map/Map"
+import { speedTest, formatNumber} from "../../helpers/speedtest"
+import { NearbyTable } from "../NearbyTable/NearbyTable"
+import { CafeMap } from "../Map/Map"
 
 interface Props {
     buttonType: string;
@@ -25,7 +25,6 @@ export const Button = (props: Props) => {
                 const latitude = position.coords.latitude;
                 const longitude = position.coords.longitude;
                 setCoords([latitude, longitude]);
-                console.log(coords);
                 setClicked(true);
                 fetch("http://localhost:8000/location/shops", {
                     method: "POST",

@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Map, Marker, Overlay } from 'pigeon-maps'
 import { osm } from 'pigeon-maps/providers'
 import { Restaurant } from '../NearbyTable/NearbyTable'
-import Popper from '@mui/material/Popper'
 import Paper from '@mui/material/Paper'
 
 export interface MapProps {
@@ -51,13 +50,10 @@ export function CafeMap(props: { mapProps: MapProps, restaurants: Restaurant[] }
         {restaurants.map((restaurant: Restaurant) => (
             <Overlay 
                 anchor={[restaurant.geometry.location.lat, restaurant.geometry.location.lng]} 
+                offset={[0,0]}
             >
             {openStatuses[restaurant.place_id] ? (
-                <Popper open={openStatuses[restaurant.place_id]} anchorEl={anchorEl}>
-                    <Paper elevation={3}>
-                    {restaurant.name}
-                    </Paper>
-                </Popper>
+                <Paper elevation={3}>{restaurant.name}</Paper>
             ) : undefined }
             </Overlay>
         ))}
