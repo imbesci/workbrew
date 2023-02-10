@@ -2,6 +2,10 @@ import React from "react";
 import { useState } from "react"
 import "./NearbyTable.css";
 import { formatNumber } from "../../helpers/speedtest"
+import { defaultRestaurant } from "../../helpers/defaultObjects"
+import Paper from "@mui/material/Paper"
+import Popover from "@mui/material/Popover"
+import ClickAwayListener from "@mui/material/ClickAwayListener"
 
 export interface Restaurant {
     business_status: string;
@@ -45,16 +49,31 @@ export interface Restaurant {
     formatted_address: string;
     website: string;
     distance: number;
-  }
+}
   
-  interface Props {
+interface Props {
     restaurants : Restaurant[];
-  }
-  
+}
+
 export const NearbyTable: React.FC<Props> = ({ restaurants }) => {
 
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
-
+    const [isPopupVisible, setIsPopupVisible] = useState(false);
+    const [selectedRestaurant, setSelectedRestaurant] = useState<Restaurant>(defaultRestaurant);
+    
+    const handleRowClick = (restaurant: Restaurant) => {
+        setSelectedRestaurant(restaurant);
+        setIsPopupVisible(true);
+    }
+    
+    const handlePopupClick = (event: any) => {
+      event.stopPropagation();
+    };
+    
+    const handleClickOutside = () => {
+      setIsPopupVisible(false);
+    };
+      
     const sortedRestaurants = [...restaurants].sort((a, b) => {
       if (sortOrder === 'asc') {
         return a.distance - b.distance;
@@ -64,13 +83,14 @@ export const NearbyTable: React.FC<Props> = ({ restaurants }) => {
     });
     
     return (
+        <>
         <table>
           <thead>
             <tr>
               <th>Name</th>
               <th>
                 Distance from you (miles)
-                <button onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}>
+                <button className="sortButton" onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}>
                   {sortOrder === 'asc' ? '▲' : '▼'}
                 </button>
               </th>
@@ -79,11 +99,27 @@ export const NearbyTable: React.FC<Props> = ({ restaurants }) => {
           <tbody>
             {sortedRestaurants.map((restaurant, index) => (
               <tr key={index}>
-                <td>{restaurant.name}</td>
-                <td>{formatNumber(restaurant.distance, 2)}</td>
+                <td onClick={() => handleRowClick(restaurant)}>
+                    {restaurant.name}
+                </td>
+                <td onClick={() => handleRowClick(restaurant)}>
+                    {formatNumber(restaurant.distance, 2)}
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
+         {isPopupVisible && (
+            <ClickAwayListener onClickAway={handleClickOutside}>
+              <div onClick={handlePopupClick}>
+                    <Popover open={isPopupVisible}>
+                        <p>Selected Restaurant: {selectedRestaurant.name}</p>
+                        <p>Distance: {formatNumber(selectedRestaurant.distance, 2)}</p>
+                    </Popover>
+              </div>
+            </ClickAwayListener>
+          )}
+          </>
+          
       );
     };
