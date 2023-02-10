@@ -4,7 +4,7 @@ import "./NearbyTable.css";
 import { formatNumber } from "../../helpers/speedtest"
 import { defaultRestaurant } from "../../helpers/defaultObjects"
 import Paper from "@mui/material/Paper"
-import Popover from "@mui/material/Popover"
+import Popper from "@mui/material/Popper"
 import ClickAwayListener from "@mui/material/ClickAwayListener"
 
 export interface Restaurant {
@@ -112,10 +112,10 @@ export const NearbyTable: React.FC<Props> = ({ restaurants }) => {
          {isPopupVisible && (
             <ClickAwayListener onClickAway={handleClickOutside}>
               <div onClick={handlePopupClick}>
-                    <Popover open={isPopupVisible}>
+                    <Popper open={isPopupVisible}>
                         <p>Selected Restaurant: {selectedRestaurant.name}</p>
                         <p>Distance: {formatNumber(selectedRestaurant.distance, 2)}</p>
-                    </Popover>
+                    </Popper>
               </div>
             </ClickAwayListener>
           )}
