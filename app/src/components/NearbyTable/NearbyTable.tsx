@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react"
+import { useState, useRef } from "react"
 import "./NearbyTable.css";
 import { formatNumber } from "../../helpers/speedtest"
 import { defaultRestaurant } from "../../helpers/defaultObjects"
@@ -60,10 +60,14 @@ export const NearbyTable: React.FC<Props> = ({ restaurants }) => {
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
     const [isPopupVisible, setIsPopupVisible] = useState(false);
     const [selectedRestaurant, setSelectedRestaurant] = useState<Restaurant>(defaultRestaurant);
+    const [anchorEl, setAnchorEl] = useState(null)
+    const spanRef = useRef(null)
+    const [hover, setHover] = useState(false)
     
     const handleRowClick = (restaurant: Restaurant) => {
         setSelectedRestaurant(restaurant);
         setIsPopupVisible(true);
+        setAnchorEl(spanRef.current)
     }
     
     const handlePopupClick = (event: any) => {
@@ -83,11 +87,11 @@ export const NearbyTable: React.FC<Props> = ({ restaurants }) => {
     });
     
     return (
-        <>
+        <div ref={spanRef}>
         <table>
           <thead>
             <tr>
-              <th>Name</th>
+              <th>Cafe</th>
               <th>
                 Distance from you (miles)
                 <button className="sortButton" onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}>
@@ -98,11 +102,15 @@ export const NearbyTable: React.FC<Props> = ({ restaurants }) => {
           </thead>
           <tbody>
             {sortedRestaurants.map((restaurant, index) => (
-              <tr key={index}>
-                <td onClick={() => handleRowClick(restaurant)}>
+              <tr key={index} 
+              onClick={() => handleRowClick(restaurant)} 
+              className={`table-row ${hover ? 'table-row-hover' : ''}`}
+              onMouseEnter={() => setHover(true)}
+              onMouseLeave={() => setHover(false)}>
+                <td>
                     {restaurant.name}
                 </td>
-                <td onClick={() => handleRowClick(restaurant)}>
+                <td>
                     {formatNumber(restaurant.distance, 2)}
                 </td>
               </tr>
@@ -112,14 +120,16 @@ export const NearbyTable: React.FC<Props> = ({ restaurants }) => {
          {isPopupVisible && (
             <ClickAwayListener onClickAway={handleClickOutside}>
               <div onClick={handlePopupClick}>
-                    <Popper open={isPopupVisible}>
-                        <p>Selected Restaurant: {selectedRestaurant.name}</p>
-                        <p>Distance: {formatNumber(selectedRestaurant.distance, 2)}</p>
+                    <Popper open={isPopupVisible} style={{ position: 'fixed', top: 400, left: 275  }}>
+                        <Paper elevation={5}>
+                            <p>{selectedRestaurant.name}</p>
+                            <p>Distance: {formatNumber(selectedRestaurant.distance, 2)}</p>
+                        </Paper>
                     </Popper>
               </div>
             </ClickAwayListener>
           )}
-          </>
+          </div>
           
       );
     };
