@@ -2,8 +2,9 @@ import * as React from "react";
 import { useState } from "react";
 import "./Button.css";
 import { speedTest, formatNumber} from "../../helpers/speedtest"
-import { NearbyTable } from "../NearbyTable/NearbyTable"
+import { Restaurant, NearbyTable } from "../NearbyTable/NearbyTable"
 import { CafeMap } from "../Map/Map"
+import { getDistance } from "../../helpers/location"
 
 interface Props {
     buttonType: string;
@@ -32,7 +33,10 @@ export const Button = (props: Props) => {
                     body: JSON.stringify({ latitude, longitude })})
                 .then((response) => response.json())
                 .then((data) => {
-                setResponseData(data.data);
+                const workedData = data.data.map((restaurant:Restaurant) => {
+                    restaurant.distance = getDistance(latitude, longitude, restaurant.geometry.location.lat, restaurant.geometry.location.lng)
+                })
+                setResponseData(workedData);
                 setIsLoading(false);
         });})}
 
@@ -47,26 +51,26 @@ export const Button = (props: Props) => {
     if (props.buttonType === "location") {
         return (
           <div>
-            <div className="mapContainer">
               {!isLoading && clicked && coords!=initCoords && (
+                <div className="mapContainer">
                 <CafeMap mapProps={{coords}} restaurants={responseData} />
+                </div>
               )}
-            </div>
-            <div className="tableContainer">
               {!isLoading && clicked && (
+                <div className="tableContainer">
                 <NearbyTable restaurants={responseData} />
+                </div>
               )}
-            </div>
-            <div className="buttonContainer">
               {!clicked && !isLoading && (
+                <div className="buttonContainer">
                 <button className="clickButton" onClick={() => onClick("location")}>
                   Click it!
                 </button>
+                </div>
               )}
               {isLoading && (
                 <div>Loading...</div>
               )}
-            </div>
           </div>
         );
       }

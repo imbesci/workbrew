@@ -42,6 +42,7 @@ export interface Restaurant {
     };
     formatted_address: string;
     website: string;
+    distance: number;
   }
   
   interface Props {
@@ -61,7 +62,7 @@ export const NearbyTable: React.FC<Props> = ({ restaurants }) => {
         {restaurants.map((restaurant, index) => (
           <tr key={index}>
             <td>{restaurant.name}</td>
-            <td>{restaurant.formatted_address}</td>
+            <td>{restaurant.distance}</td>
           </tr>
         ))}
       </tbody>

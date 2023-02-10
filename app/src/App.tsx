@@ -6,7 +6,7 @@ const App = () => {
   return (
     <div>
         <header>
-        <h2>Hello From React App 👋</h2>
+        <h2>Cafe-Racer ☕</h2>
         </header>
         <Button buttonType="location"/>
         <Button buttonType="networkTest"/>
