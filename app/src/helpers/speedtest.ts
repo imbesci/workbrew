@@ -26,6 +26,6 @@ export const speedTest = async () => {
     return(imageSize/avgSpeed)
 }
 
-export const formatNumber = (num: number) => {
-    return num.toLocaleString(undefined, { maximumFractionDigits: 0 })
+export const formatNumber = (num: number, digits: number=0) => {
+    return num.toLocaleString(undefined, { maximumFractionDigits: digits })
 };

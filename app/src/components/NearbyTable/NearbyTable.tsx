@@ -1,5 +1,7 @@
 import React from "react";
+import { useState } from "react"
 import "./NearbyTable.css";
+import { formatNumber } from "../../helpers/speedtest"
 
 export interface Restaurant {
     business_status: string;
@@ -50,22 +52,38 @@ export interface Restaurant {
   }
   
 export const NearbyTable: React.FC<Props> = ({ restaurants }) => {
-  return (
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Address</th>
-        </tr>
-      </thead>
-      <tbody>
-        {restaurants.map((restaurant, index) => (
-          <tr key={index}>
-            <td>{restaurant.name}</td>
-            <td>{restaurant.distance}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-};
+
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+
+    const sortedRestaurants = [...restaurants].sort((a, b) => {
+      if (sortOrder === 'asc') {
+        return a.distance - b.distance;
+      } else {
+        return b.distance - a.distance;
+      }
+    });
+    
+    return (
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>
+                Distance from you (miles)
+                <button onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}>
+                  {sortOrder === 'asc' ? '▲' : '▼'}
+                </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {sortedRestaurants.map((restaurant, index) => (
+              <tr key={index}>
+                <td>{restaurant.name}</td>
+                <td>{formatNumber(restaurant.distance, 2)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      );
+    };
