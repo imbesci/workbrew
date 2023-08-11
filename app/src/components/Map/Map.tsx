@@ -12,7 +12,7 @@ type StringIndexedObject = {
     [key: string]: boolean
   }
 
-export function CafeMap(props: { mapProps: MapProps, restaurants: Restaurant[] } ) {
+export const CafeMap = React.memo((props: { mapProps: MapProps, restaurants: Restaurant[] } ) => {
 
     const coords = props.mapProps.coords
     const restaurants = props.restaurants
@@ -69,4 +69,4 @@ export function CafeMap(props: { mapProps: MapProps, restaurants: Restaurant[] }
         ))}
         </Map>
     )
-}
+})

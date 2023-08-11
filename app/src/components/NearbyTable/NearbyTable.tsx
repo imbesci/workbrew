@@ -55,7 +55,7 @@ interface Props {
     restaurants : Restaurant[];
 }
 
-export const NearbyTable: React.FC<Props> = ({ restaurants }) => {
+export const NearbyTable: React.FC<Props> = React.memo(({ restaurants }) => {
 
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
     const [isPopupVisible, setIsPopupVisible] = useState(false);
@@ -132,4 +132,4 @@ export const NearbyTable: React.FC<Props> = ({ restaurants }) => {
           </div>
           
       );
-    };
+    });
