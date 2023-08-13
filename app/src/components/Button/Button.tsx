@@ -71,7 +71,7 @@ export const Button = (props: Props) => {
               {!clicked && !isLoading && (
                 <div className="buttonContainer">
                 <button className="clickButton" onClick={() => onClick("location")}>
-                  Click it!
+                  List Nearby Cafe's
                 </button>
                 </div>
               )}
@@ -84,7 +84,7 @@ export const Button = (props: Props) => {
 
     if (props.buttonType === "networkTest") {
         return (
-            <div className="buttonContainer">
+            <div className="speedTestButton">
             <button className="clickButton" onClick={() => onClick("networkTest")}>
                 {!clicked ? "Click to perform a network test!" : isLoading ? "Performing speed test..." : "Your approximate internet speed is: "+formatNumber(speed)+" kB/s"}
             </button>

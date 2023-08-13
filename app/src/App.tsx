@@ -8,8 +8,8 @@ const App = () => {
         <header>
         <h2>Cafe-Racer ☕</h2>
         </header>
-        <Button buttonType="location"/>
         <Button buttonType="networkTest"/>
+        <Button buttonType="location"/>
     </div>
   );
 };
